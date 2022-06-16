@@ -1,4 +1,4 @@
-package com.example.news_app_demo.Api.model;
+package com.example.news_app_demo.model;
 
 public class ObjectDataClass {
     private String author;

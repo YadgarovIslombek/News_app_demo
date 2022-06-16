@@ -6,7 +6,7 @@ public class Constant {
     {
         //write your action here if need
     }
-
+    public static String API_TOKEN = "3fb26fce17bc49d0a5d174e333aa0a91";
     //We will use this to store the user token number into shared preference
     public static final String SHARED_PREF_NAME = "com.example.news_app_demo"; //pcakage name+ id
 

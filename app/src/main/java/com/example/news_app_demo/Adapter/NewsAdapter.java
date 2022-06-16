@@ -10,10 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.news_app_demo.Api.model.ObjectDataClass;
+import com.example.news_app_demo.model.ObjectDataClass;
 import com.example.news_app_demo.R;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 import java.util.List;
 
