@@ -50,6 +50,7 @@ public class ObjectDataClass {
         return url;
     }
 
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -57,7 +58,9 @@ public class ObjectDataClass {
     public String getUrlToImage() {
         return urlToImage;
     }
-
+    public boolean hasImage() {
+        return !getUrlToImage().equals("");
+    }
     public void setUrlToImage(String urlToImage) {
         this.urlToImage = urlToImage;
     }
