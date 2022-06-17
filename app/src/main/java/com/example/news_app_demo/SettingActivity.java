@@ -22,7 +22,6 @@ import es.dmoral.toasty.Toasty;
 
 public class SettingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-
     ImageView imgNoProduct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,35 +30,24 @@ public class SettingActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true); //for back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//for back button
         getSupportActionBar().setTitle(R.string.all_users);
-
         recyclerView = findViewById(R.id.recycler_view);
         imgNoProduct = findViewById(R.id.image_no_product);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager); // set LayoutManager to RecyclerView
-
-
         recyclerView.setHasFixedSize(true);
-
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SettingActivity.this);
         databaseAccess.open();
-
         //get data from local database
         List<HashMap<String, String>> userData;
         userData = databaseAccess.getUsers();
-
         Log.d("data", "" + userData.size());
         if (userData.isEmpty()) {
             Toasty.info(this, R.string.no_data_found, Toast.LENGTH_SHORT).show();
             imgNoProduct.setImageResource(R.drawable.not_found);
         } else {
-
-
             imgNoProduct.setVisibility(View.GONE);
             UserAdapter userAdapter = new UserAdapter(SettingActivity.this, userData);
-
             recyclerView.setAdapter(userAdapter);
-
-
         }
     }
     @Override

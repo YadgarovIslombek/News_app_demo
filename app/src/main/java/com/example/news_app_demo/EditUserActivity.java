@@ -23,8 +23,6 @@ public class EditUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-
-
         getSupportActionBar().setHomeButtonEnabled(true); //for back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//for back button
         getSupportActionBar().setTitle(R.string.edit_user);
@@ -47,37 +45,32 @@ public class EditUserActivity extends AppCompatActivity {
         etxt_user_password.setText(userPassword);
         //button
         txt_update_user.setVisibility(View.INVISIBLE);
-
+        etxt_user_name.setEnabled(false);
+        etxt_phone_number.setEnabled(false);
+        etxt_user_password.setEnabled(false);
         txt_edit_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 etxt_user_name.setEnabled(true);
                 etxt_phone_number.setEnabled(true);
                 etxt_user_password.setEnabled(true);
-
                 txt_update_user.setVisibility(View.VISIBLE);
                 etxt_user_name.setTextColor(Color.RED);
                 etxt_phone_number.setTextColor(Color.RED);
                 etxt_user_password.setTextColor(Color.RED);
-
                 txt_edit_user.setVisibility(View.GONE);
             }
         });
-
         txt_update_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String userName = etxt_user_name.getText().toString().trim();
                 String userPhone = etxt_phone_number.getText().toString().trim();
                 String userPassword = etxt_user_password.getText().toString().trim();
-
                 if (userName.isEmpty()) {
                     etxt_user_name.setError(getString(R.string.please_enter_user_name));
                     etxt_user_name.requestFocus();
                 }
-
                 else if (userPhone.isEmpty())
                 {
                     etxt_phone_number.setError(getString(R.string.please_enter_phone_number));
@@ -88,7 +81,6 @@ public class EditUserActivity extends AppCompatActivity {
                     etxt_user_password.setError(getString(R.string.please_enter_password));
                     etxt_user_password.requestFocus();
                 }
-
 
                 else {
 

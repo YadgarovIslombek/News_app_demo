@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
                 showErrorMessage(
                         R.drawable.no,
                         "Oops..",
-                        "Network failure, Please Try Again\n"+
+                        "Подключение потеряно! Пожалуйста, попробуйте еще раз\n"+
                                 t.toString());
             }
         });
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setQueryHint("Search Latest News...");
+        searchView.setQueryHint("Поиск Последние Новости...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -227,11 +227,9 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
         if (id == R.id.action_settings){
            Intent i =  new Intent(MainActivity.this, SettingActivity.class);
            startActivity(i);
+           finish();
             return true;
         }
-
-
-
         return super.onOptionsItemSelected(item);
     }
     @Override

@@ -2,16 +2,18 @@
     <string name="app_name">News_app_demo</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="user_name">name</string>
-    <string name="phone_number">phone</string>
-    <string name="password">password</string>
-    <string name="edit_user">edit</string>
-    <string name="update_user">update</string>
-    <string name="please_enter_user_name">iltimos ism kiriting</string>
-    <string name="please_enter_phone_number">iltimos telefon raqam kiriting</string>
-    <string name="please_enter_password">parol kiriting</string>
-    <string name="successfully_updated">Muffaqiyatli o\'zgardi</string>
+    <string name="user_name">Имя пользователя</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="password">Пароль</string>
+    <string name="edit_user">Редактировать</string>
+    <string name="update_user">Сохранить</string>
+    <string name="please_enter_user_name">Введите имя</string>
+    <string name="please_enter_phone_number">Введите номер телефонa</string>
+    <string name="please_enter_password">Введите парол</string>
+    <string name="successfully_updated">Успешно</string>
     <string name="user_already_exist_with_this_phone_number">Bunday raqamli user bor</string>
-    <string name="all_users">userName</string>
+    <string name="all_users">Учетная Запись</string>
     <string name="no_data_found">no data</string>
+    <string name="phone">Номер телефона</string>
+    <string name="enter">Войти</string>
 </resources>
