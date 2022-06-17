@@ -12,9 +12,9 @@
     <color name="light_gray">#BCBCBC</color>
     <color name="white_smoke">#F5F5F5</color>
 
-    <color name="colorAccent">#01BAEF</color>
-    <color name="colorPrimary">#01BAEF</color>
-    <color name="colorPrimaryDark">#01BAEF</color>
+    <color name="colorAccent">#FFBB86FC</color>
+    <color name="colorPrimary">#FF6200EE</color>
+    <color name="colorPrimaryDark">#FF6200EE</color>
 
     <color name="textColorPrimaryDark">#757575</color>
     <color name="textColorSecondaryLight">#666666</color>

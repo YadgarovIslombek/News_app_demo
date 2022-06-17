@@ -84,9 +84,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
             i.putExtra(DatabaseOpenHelper.USER_PHONE, (String) ((HashMap) UserAdapter.this.userData.get(getAdapterPosition())).get(DatabaseOpenHelper.USER_PHONE));
             i.putExtra(DatabaseOpenHelper.USER_PASSWORD, (String) ((HashMap) UserAdapter.this.userData.get(getAdapterPosition())).get(DatabaseOpenHelper.USER_PASSWORD));
 
-
-
             context.startActivity(i);
+
         }
     }
 

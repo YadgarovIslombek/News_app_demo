@@ -16,4 +16,5 @@
     <string name="no_data_found">no data</string>
     <string name="phone">Номер телефона</string>
     <string name="enter">Войти</string>
+    <string name="phone22">Введите номер телефона</string>
 </resources>

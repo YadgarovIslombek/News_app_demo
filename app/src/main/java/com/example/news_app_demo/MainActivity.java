@@ -12,6 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.view.Menu;
@@ -28,7 +29,9 @@ import com.example.news_app_demo.Adapter.NewsAdapter;
 import com.example.news_app_demo.Api.RetrofitClient;
 import com.example.news_app_demo.model.NewsModel;
 import com.example.news_app_demo.model.ObjectDataClass;
-
+import com.example.news_app_demo.util.Constant;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
+import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.Slidetop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +51,14 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
     private ImageView errorImage;
     private TextView errorTitle, errorMessage;
     private Button btnRetry;
+    SharedPreferences.Editor editor;
+    SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        sp = getSharedPreferences(Constant.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        editor = sp.edit();
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
@@ -229,6 +235,39 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
            startActivity(i);
            finish();
             return true;
+        }else if(id == R.id.action_logOut){
+            NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MainActivity.this);
+            dialogBuilder
+                    .withTitle("Выйти")
+                    .withMessage("выйти из приложения?")
+                    .withEffect(Slidetop)
+                    .withDialogColor("#03AAF3") //use color code for dialog
+                    .withButton1Text("Да")
+                    .withButton2Text("Нет")
+                    .setButton1Click(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            editor.putString(Constant.SP_PHONE, "");
+                            editor.putString(Constant.SP_PASSWORD, "");
+                            editor.putString(Constant.SP_USER_NAME, "");
+                            editor.putString(Constant.SP_USER_TYPE, "");
+                            editor.apply();
+
+                            Intent intent = new Intent(getApplicationContext(), LoginRegister.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                            dialogBuilder.dismiss();
+                        }
+                    })
+                    .setButton2Click(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            dialogBuilder.dismiss();
+                        }
+                    })
+                    .show();
         }
         return super.onOptionsItemSelected(item);
     }

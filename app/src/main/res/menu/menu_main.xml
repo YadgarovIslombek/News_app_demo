@@ -19,5 +19,11 @@
         android:title="Настройки"
         app:showAsAction="never"
         />
+    <item
+    android:id="@+id/action_logOut"
+    android:orderInCategory="100"
+    android:title="Выйти"
+    app:showAsAction="never"
+    />
 
 </menu>
