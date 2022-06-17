@@ -108,7 +108,7 @@ public class LoginRegister extends AppCompatActivity {
             startActivity(intent1);
             finish();
 
-            Toasty.success(this, "Успешно", Toast.LENGTH_SHORT).show();
+            //Toasty.success(this, "Успешно", Toast.LENGTH_SHORT).show();
         }
 
     }
