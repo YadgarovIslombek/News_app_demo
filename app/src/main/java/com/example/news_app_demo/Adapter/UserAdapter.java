@@ -1,5 +1,6 @@
 package com.example.news_app_demo.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -85,7 +86,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
             i.putExtra(DatabaseOpenHelper.USER_PASSWORD, (String) ((HashMap) UserAdapter.this.userData.get(getAdapterPosition())).get(DatabaseOpenHelper.USER_PASSWORD));
 
             context.startActivity(i);
-
+            ((Activity)context).finish();
         }
     }
 

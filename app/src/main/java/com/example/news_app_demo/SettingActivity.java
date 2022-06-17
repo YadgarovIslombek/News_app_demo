@@ -53,7 +53,8 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {// app icon in action bar clicked; goto parent activity.
-            this.finish();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -63,7 +64,7 @@ public class SettingActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
         finish();
 
-        //super.onBackPressed();
+        super.onBackPressed();
     }
 
 }

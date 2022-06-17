@@ -109,11 +109,18 @@ public class EditUserActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            this.finish();
+            startActivity(new Intent(this, SettingActivity.class));
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, SettingActivity.class));
+        finish();
 
+        super.onBackPressed();
+    }
 }
