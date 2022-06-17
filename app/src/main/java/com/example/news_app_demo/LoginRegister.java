@@ -65,10 +65,10 @@ public class LoginRegister extends AppCompatActivity {
                 String password = etxtPassword.getText().toString().trim();
 
                 if (phone.isEmpty()) {
-                    etxtPhone.setError("raqam kirit");
+                    etxtPhone.setError("Введите номер телефона");
                     etxtPhone.requestFocus();
                 } else if (password.isEmpty()) {
-                    etxtPassword.setError("parol kirit");
+                    etxtPassword.setError("Введите парол");
                     etxtPassword.requestFocus();
                 } else {
                     login(phone, password);
@@ -89,7 +89,7 @@ public class LoginRegister extends AppCompatActivity {
         List<HashMap<String, String>> userData;
         userData = databaseAccess.checkUser(phone, password);
         if (userData.isEmpty()) {
-            Toasty.error(this, "Kiritilgam ma'lumot bazadan topilmadi!", Toasty.LENGTH_SHORT).show();
+            Toasty.error(this, "Не найдено", Toasty.LENGTH_SHORT).show();
         } else {
             String userName = userData.get(0).get("user_name");
             String userType = userData.get(0).get("user_type");
@@ -108,7 +108,7 @@ public class LoginRegister extends AppCompatActivity {
             startActivity(intent1);
             finish();
 
-            Toasty.success(this, "R.string.login_successful", Toast.LENGTH_SHORT).show();
+            Toasty.success(this, "Успешно", Toast.LENGTH_SHORT).show();
         }
 
     }

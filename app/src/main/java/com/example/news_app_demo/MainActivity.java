@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
                     .withTitle("Выйти")
                     .withMessage("выйти из приложения?")
                     .withEffect(Slidetop)
-                    .withDialogColor("#03AAF3") //use color code for dialog
+                    .withDialogColor("#FF6200EE") //use color code for dialog
                     .withButton1Text("Да")
                     .withButton2Text("Нет")
                     .setButton1Click(new View.OnClickListener() {
