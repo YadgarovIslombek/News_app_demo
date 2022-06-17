@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.news_app_demo">
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.News_app_demo">
+        android:theme="@style/Theme.News_app_demo"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".NewsInfoActivity"
+            android:theme="@style/Theme.News_app_demo.NoActionBar"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />

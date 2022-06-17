@@ -3,23 +3,36 @@ package com.example.news_app_demo;
 import static com.example.news_app_demo.util.Constant.API_TOKEN;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import androidx.core.util.Pair;
+
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.news_app_demo.Adapter.NewsAdapter;
-import com.example.news_app_demo.Adapter.SubjectAdapter;
 import com.example.news_app_demo.Api.RetrofitClient;
 import com.example.news_app_demo.model.NewsModel;
 import com.example.news_app_demo.model.ObjectDataClass;
-import com.example.news_app_demo.model.Subject;
 
 
 import java.util.ArrayList;
@@ -36,7 +49,10 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
     private List<ObjectDataClass> objData = new ArrayList<>();
     private NewsAdapter newsAdapter;
     private TextView topHeadline;
-
+    private RelativeLayout errorLayout;
+    private ImageView errorImage;
+    private TextView errorTitle, errorMessage;
+    private Button btnRetry;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,67 +71,17 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
 
         onLoadingSwipeRefresh("");
 
-       //Retrofit call
-     //   Call<MainDataClass> call = RetrofitClient.getData(getApplicationContext()).getData("techcrunch.com", API_TOKEN);
-        //recycler Vertical
-        /*recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());*/
 
-        //init data
-     /*   call.enqueue(new Callback<MainDataClass>() {
-            @Override
-            public void onResponse(Call<MainDataClass> call, Response<MainDataClass> response) {
-                if(response.isSuccessful()){
-                    assert response.body() != null;
-                    List<ObjectDataClass> list = response.body().getArticles();
-                    newsAdapter  = new NewsAdapter(list,MainActivity.this);
-                    recyclerView.setAdapter(newsAdapter);
-                   *//* for (ObjectDataClass obj : list){
-                        Log.d("author", obj.getAuthor());
-                        Log.d("title", obj.getTitle());
-                        Log.d("desc", obj.getDescription());
-                        Log.d("url", obj.getUrl());
-                        Log.d("image", obj.getUrlToImage());
-                        Log.d("data", obj.getPublishedAt());
-                        Log.d("content", obj.getContent());
-                    }*//*
-                }else{
-                    Log.d("response","faeilboldi");
-                }
-            }
+        errorLayout = findViewById(R.id.errorLayout);
+        errorImage = findViewById(R.id.errorImage);
+        errorTitle = findViewById(R.id.errorTitle);
+        errorMessage = findViewById(R.id.errorMessage);
+        btnRetry = findViewById(R.id.btnRetry);
 
-            @Override
-            public void onFailure(Call<MainDataClass> call, Throwable t) {
-                Log.d("response","fail");
-            }
-        });*/
-
-        //rv horizontal  Top
-      /*  rv2 = findViewById(R.id.recH);
-        //init data
-        ArrayList<Subject> subjectArrayList = new ArrayList<>();
-        subjectArrayList.add(new Subject("English"));
-        subjectArrayList.add(new Subject("Math"));
-        subjectArrayList.add(new Subject("P.E"));
-        subjectArrayList.add(new Subject("Science"));
-        subjectArrayList.add(new Subject("Art"));
-        subjectArrayList.add(new Subject("Art"));
-        subjectArrayList.add(new Subject("Art"));
-        subjectArrayList.add(new Subject("Art"));
-        subjectArrayList.add(new Subject("Art"));
-        subjectArrayList.add(new Subject("Art"));
-
-        SubjectAdapter adapter = new SubjectAdapter(subjectArrayList,MainActivity.this);
-        rv2.setAdapter(adapter);
-// Set LayoutManager
-        rv2.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));*/
     }
     public void LoadJson(final String keyword){
 
-       // errorLayout.setVisibility(View.GONE);
+        errorLayout.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(true);
 
 
@@ -145,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
                     recyclerView.setAdapter(newsAdapter);
                     newsAdapter.notifyDataSetChanged();
 
-                    //initListener();
+                    initListener();
 
                     topHeadline.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setRefreshing(false);
@@ -169,11 +135,11 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
                             break;
                     }
 
-                   /* showErrorMessage(
-                            R.drawable.no_result,
+                    showErrorMessage(
+                            R.drawable.no,
                             "No Result",
                             "Please Try Again!\n"+
-                                    errorCode);*/
+                                    errorCode);
 
                 }
             }
@@ -182,18 +148,82 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
             public void onFailure(Call<NewsModel> call, Throwable t) {
                 topHeadline.setVisibility(View.INVISIBLE);
                 swipeRefreshLayout.setRefreshing(false);
-                /*showErrorMessage(
-                        R.drawable.oops,
+                showErrorMessage(
+                        R.drawable.no,
                         "Oops..",
                         "Network failure, Please Try Again\n"+
-                                t.toString());*/
+                                t.toString());
+            }
+        });
+
+        }
+
+    private void initListener(){
+
+        newsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                ImageView imageView = view.findViewById(R.id.img);
+                Intent intent = new Intent(MainActivity.this, NewsInfoActivity.class);
+
+                ObjectDataClass objData1 = objData.get(position);
+                intent.putExtra("url", objData1.getUrl());
+                intent.putExtra("title", objData1.getTitle());
+                intent.putExtra("img",  objData1.getUrlToImage());
+                intent.putExtra("date",  objData1.getPublishedAt());
+                intent.putExtra("source",  objData1.getSource().getName());
+                intent.putExtra("author",  objData1.getAuthor());
+
+                /*Pair<View, String> pair = Pair.create((View)imageView, ViewCompat.getTransitionName(imageView));
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        MainActivity.this, pair
+                );
+*/
+
+             /*   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    startActivity(intent, optionsCompat.toBundle());
+                }else {*/
+                    startActivity(intent);
+               // }
+
             }
         });
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
 
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setQueryHint("Search Latest News...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.length() > 2){
+                    onLoadingSwipeRefresh(query);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Type more than two letters!", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchMenuItem.getIcon().setVisible(false, false);
+
+        return true;
+    }
 
     @Override
     public void onRefresh() {
@@ -211,5 +241,24 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
         );
 
     }
+    private void showErrorMessage(int imageView, String title, String message){
+
+        if (errorLayout.getVisibility() == View.GONE) {
+            errorLayout.setVisibility(View.VISIBLE);
+        }
+
+        errorImage.setImageResource(imageView);
+        errorTitle.setText(title);
+        errorMessage.setText(message);
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLoadingSwipeRefresh("");
+            }
+        });
+
+    }
+
 
 }

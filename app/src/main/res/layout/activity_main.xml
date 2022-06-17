@@ -48,6 +48,6 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-<!--   // <include layout="@layout/error"/>-->
+    <include layout="@layout/error"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

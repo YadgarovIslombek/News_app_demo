@@ -32,7 +32,7 @@
                 android:layout_alignBottom="@id/img"
                 android:src="@drawable/bottom" />
             <ProgressBar
-                android:id="@+id/prograss_load_photo"
+                android:id="@+id/prprograss_load_photo"
                 style="@android:style/Widget.ProgressBar.Small.Inverse"
                 android:layout_width="match_parent"
                 android:layout_marginTop="68dp"

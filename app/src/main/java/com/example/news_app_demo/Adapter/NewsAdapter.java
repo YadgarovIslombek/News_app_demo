@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.news_app_demo.Util;
 import com.example.news_app_demo.model.ObjectDataClass;
@@ -33,6 +35,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder>{
     private OnItemClickListener onItemClickListener;
 
 
+
 //    public MyOnClickListener myOnClickListener;
 
     public NewsAdapter(List<ObjectDataClass> objectDataClass, Context context) {
@@ -45,7 +48,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder>{
     public NewsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.news_item, parent, false);
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(itemView,onItemClickListener);
     }
 
     @Override
@@ -63,9 +66,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder>{
         }else{
             holder.image_headline.setImageResource(R.drawable.ic_launcher_background);
         }*/
-        if(objData.hasImage()) {
-            Glide.with(context)
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(Util.getRandomDrawbleColor());
+        requestOptions.error(Util.getRandomDrawbleColor());
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
+        requestOptions.centerCrop();
+
+        Glide.with(context)
                     .load(objData.getUrlToImage())
+                    .apply(requestOptions)
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -81,9 +90,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder>{
                     })
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(holder.imageView);
-        }else{
-            holder.imageView.setImageResource(R.drawable.ic_launcher_background);
-        }
+
         holder.title.setText(objData.getTitle());
         holder.desc.setText(objData.getDescription());
        // holder.source.setText(objData.getSource().getName());
@@ -100,12 +107,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder>{
     public int getItemCount() {
         return objectDataClass.size();
     }
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
-    }
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
     }
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
     @Override
     public int getItemViewType(int position) {
         return position;
@@ -120,7 +128,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder>{
         OnItemClickListener onItemClickListener;
 
 
-        public MyViewHolder(@NonNull View view) {
+        public MyViewHolder(@NonNull View view, OnItemClickListener onItemClickListener) {
             super(view);
           /*  text_title = (TextView) view.findViewById(R.id.text_title);
             text_desc = (TextView) view.findViewById(R.id.text_desc);
