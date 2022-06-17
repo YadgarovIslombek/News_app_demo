@@ -1,18 +1,28 @@
 package com.example.news_app_demo.Adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.example.news_app_demo.Util;
 import com.example.news_app_demo.model.ObjectDataClass;
 import com.example.news_app_demo.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -20,6 +30,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder>{
 
     List<ObjectDataClass>objectDataClass;
     Context context;
+    private OnItemClickListener onItemClickListener;
 
 
 //    public MyOnClickListener myOnClickListener;
@@ -38,14 +49,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsAdapter.MyViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull MyViewHolder holders, int position) {
+        final MyViewHolder holder = holders;
         final ObjectDataClass objData = objectDataClass.get(position);
 
-        //db = new DB();
-        /*holder.idMahsulotGuruhi.setText(Integer.toString(productTypeList.get(position).getIdMahsulotGuruhi()));
-        holder.mahsulotTuriId.setText(Integer.toString(productTypeList.get(position).getMahsulotTuriId()));*/
-        holder.text_title.setText(objData.getTitle());
+
+     /*   holder.text_title.setText(objData.getTitle());
         holder.text_desc.setText(objData.getDescription());
         final String url = objData.getUrlToImage();
         if (objData.hasImage()) {
@@ -53,32 +62,37 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder>{
         Picasso.get().load(url).into(holder.image_headline);
         }else{
             holder.image_headline.setImageResource(R.drawable.ic_launcher_background);
-        }
-        // Put the image resource in a String Variable.
-
-        // Check if an image is provided for this news story or not
-
-            //Display the image of the current news story in that ImageView using Picasso
-          /*  Picasso.with(getContext()).load(imageUrl).into(imageView);
-        } else {
-            // Otherwise Set the ImageView to the default image.
-            imageView.setImageResource(R.drawable.news);
         }*/
-    /*    holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.setOnClickListener(this);
-                Intent intent = new Intent(context, ProductActivity.class);
-                intent.putExtra("category", productGroup.getProductGroupId());
-                Log.e("CATEGORY","QAYSI ID  "+ productGroup.getProductGroupId());
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                context.startActivity(intent);
+        if(objData.hasImage()) {
+            Glide.with(context)
+                    .load(objData.getUrlToImage())
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            holder.progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            holder.progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(holder.imageView);
+        }else{
+            holder.imageView.setImageResource(R.drawable.ic_launcher_background);
+        }
+        holder.title.setText(objData.getTitle());
+        holder.desc.setText(objData.getDescription());
+       // holder.source.setText(objData.getSource().getName());
+        holder.time.setText(" \u2022 " + Util.DateToTimeFormat(objData.getPublishedAt()));
+        holder.published_ad.setText(Util.DateFormat(objData.getPublishedAt()));
+       // holder.author.setText(objData.getAuthor());
 
 
 
-
-            }
-        });*/
 
     }
 
@@ -86,43 +100,52 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder>{
     public int getItemCount() {
         return objectDataClass.size();
     }
-
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+    }
     @Override
     public int getItemViewType(int position) {
         return position;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder  {
-        public TextView text_title,text_desc;
-        ImageView image_headline;
+    public class MyViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener  {
+       /* public TextView text_title,text_desc;
+        ImageView image_headline;*/
+       TextView title, desc, author, published_ad, source, time;
+        ImageView imageView;
+        ProgressBar progressBar;
+        OnItemClickListener onItemClickListener;
 
-//        MyOnClickListener myOnClickListener;
 
         public MyViewHolder(@NonNull View view) {
             super(view);
-            text_title = (TextView) view.findViewById(R.id.text_title);
+          /*  text_title = (TextView) view.findViewById(R.id.text_title);
             text_desc = (TextView) view.findViewById(R.id.text_desc);
-            image_headline = (ImageView) view.findViewById(R.id.image_headline);
-          /*  view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(){
-                        Intent intent = new Intent(view.getContext(), ProductActivity.class);
-                        view.getContext().startActivity(intent);
-                    }
-                    }
-            });*/
-      /*      view.setOnClickListener(this);
-        }
-        @Override
-        public void onClick(View view) {
-            myOnClickListener.OnClick();
-        }
-    }
-    public interface MyOnClickListener {
-        void OnClick();
-    }*/
+            image_headline = (ImageView) view.findViewById(R.id.image_headline);*/
+            view.setOnClickListener(this);
+            title = itemView.findViewById(R.id.text_title);
+            desc = itemView.findViewById(R.id.text_desc);
+           // author = itemView.findViewById(R.id.author);
+            published_ad = itemView.findViewById(R.id.publishedAt);
+           // source = itemView.findViewById(R.id.source);
+            time = itemView.findViewById(R.id.time);
+            imageView = itemView.findViewById(R.id.image_headline);
+            progressBar = itemView.findViewById(R.id.prograss_load_photo);
+
+            this.onItemClickListener = onItemClickListener;
 
         }
+
+
+        @Override
+        public void onClick(View view) {
+            onItemClickListener.onItemClick(view, getAdapterPosition());
+        }
     }
+
+
+
 }

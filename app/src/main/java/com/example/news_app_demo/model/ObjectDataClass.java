@@ -1,6 +1,7 @@
 package com.example.news_app_demo.model;
 
 public class ObjectDataClass {
+    private SourceModel source;
     private String author;
     private String title;
     private String description;
@@ -12,7 +13,9 @@ public class ObjectDataClass {
     public ObjectDataClass() {
     }
 
-    public ObjectDataClass(String author, String title, String description, String url, String urlToImage, String publishedAt, String content) {
+
+    public ObjectDataClass(SourceModel source,String author, String title, String description, String url, String urlToImage, String publishedAt, String content) {
+        this.source = source;
         this.author = author;
         this.title = title;
         this.description = description;
@@ -20,6 +23,15 @@ public class ObjectDataClass {
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
         this.content = content;
+
+    }
+
+    public SourceModel getSource() {
+        return source;
+    }
+
+    public void setSource(SourceModel source) {
+        this.source = source;
     }
 
     public String getAuthor() {

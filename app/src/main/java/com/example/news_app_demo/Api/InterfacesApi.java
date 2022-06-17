@@ -1,6 +1,6 @@
 package com.example.news_app_demo.Api;
 
-import com.example.news_app_demo.model.MainDataClass;
+import com.example.news_app_demo.model.NewsModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -9,13 +9,20 @@ import retrofit2.http.Query;
 
 public interface InterfacesApi {
 
-    @GET("everything")
-    Call<MainDataClass> getData(
-            @Query("domains") String q,@Query("apiKey") String token);
+    @GET("top-headlines")
+    Call<NewsModel> getData(
+            @Query("country") String country,
+            @Query("apiKey") String token);
 
-   /* @GET("application/json")
-    Call<CategoryResult> getProductById
-            (@Query("groupId") int productGroupId);
-*/
 
-    }
+   @GET("everything")
+   Call<NewsModel> getNewsSearch(
+
+           @Query("q") String keyword,
+           @Query("language") String language,
+           @Query("sortBy") String sortBy,
+           @Query("apiKey") String apiKey
+
+   );
+
+}
