@@ -4,8 +4,6 @@ import static com.example.news_app_demo.util.Constant.API_TOKEN;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,15 +12,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.core.util.Pair;
 
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -224,7 +219,21 @@ public class MainActivity extends AppCompatActivity implements  SwipeRefreshLayo
 
         return true;
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings){
+           Intent i =  new Intent(MainActivity.this, SettingActivity.class);
+           startActivity(i);
+            return true;
+        }
+
+
+
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onRefresh() {
         LoadJson("");

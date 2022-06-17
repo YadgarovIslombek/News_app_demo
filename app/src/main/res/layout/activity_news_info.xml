@@ -44,10 +44,10 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:src="@drawable/top_shadow"
-                    android:scaleType="centerCrop"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp" />
+                    android:layout_height="70dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/top_shadow" />
 
                 <ImageView
                     android:id="@+id/img2"
@@ -69,7 +69,7 @@
                 app:contentInsetLeft="0dp"
                 app:contentInsetStart="0dp"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                app:popupTheme="@style/Theme.News_app_demo">
 
                 <LinearLayout
                     android:id="@+id/title_appbar"

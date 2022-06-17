@@ -54,7 +54,6 @@ public class DatabaseAccess {
 
 
 
-
     public ArrayList<HashMap<String, String>> checkUser(String phone, String password) {
         ArrayList<HashMap<String, String>> userInfo = new ArrayList<>();
 
